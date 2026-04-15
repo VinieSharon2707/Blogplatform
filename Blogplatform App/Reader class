@@ -1,0 +1,11 @@
+public class Reader extends User {
+
+    public Reader(int id, String name) {
+        super(id, name);
+    }
+
+    @Override
+    public void role() {
+        System.out.println(name + " is a Reader");
+    }
+}
