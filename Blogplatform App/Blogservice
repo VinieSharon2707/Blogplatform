@@ -1,0 +1,68 @@
+import java.util.*;
+
+public class BlogService {
+
+    private List<Post> posts = new ArrayList<>();
+
+    public void createPost(Post post) {
+        posts.add(post);
+    }
+
+    public int likePost(int index) throws PostNotFoundException {
+        if (index >= posts.size()) {
+            throw new PostNotFoundException("Post not found");
+        }
+        Post p = posts.get(index);
+        p.addLike();
+        return p.getLikes(); // important fix
+    }
+
+    public void commentPost(int index, String text) throws PostNotFoundException {
+        if (index >= posts.size()) {
+            throw new PostNotFoundException("Post not found");
+        }
+        posts.get(index).addComment(new Comment(text));
+    }
+
+    public void deletePost(int index) throws PostNotFoundException {
+        if (index >= posts.size()) {
+            throw new PostNotFoundException("Post not found");
+        }
+        posts.remove(index);
+    }
+
+    public void displayPosts() {
+        int i = 0;
+        for (Post p : posts) {
+            System.out.println("Index: " + i++);
+            p.display();
+            System.out.println("-------------------");
+        }
+    }
+
+    public int getTotalLikes() {
+        int total = 0;
+        for (Post p : posts) {
+            total += p.getLikes();
+        }
+        return total;
+    }
+
+    public void showMostLikedPost() {
+        if (posts.isEmpty()) {
+            System.out.println("No posts available");
+            return;
+        }
+
+        Post max = posts.get(0);
+
+        for (Post p : posts) {
+            if (p.getLikes() > max.getLikes()) {
+                max = p;
+            }
+        }
+
+        System.out.println("\nMost Liked Post:");
+        max.display();
+    }
+}
