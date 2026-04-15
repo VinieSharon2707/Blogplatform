@@ -1,0 +1,85 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        BlogService service = new BlogService(); // create ONLY once
+
+        while (true) {
+            System.out.println("\n===== BLOG MENU =====");
+            System.out.println("1. Create Post");
+            System.out.println("2. Like Post");
+            System.out.println("3. Comment on Post");
+            System.out.println("4. View Posts");
+            System.out.println("5. Delete Post");
+            System.out.println("6. Exit");
+            System.out.print("Enter choice: ");
+
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            try {
+                switch (choice) {
+
+                    case 1:
+                        System.out.print("Title: ");
+                        String title = sc.nextLine();
+
+                        System.out.print("Content: ");
+                        String content = sc.nextLine();
+
+                        service.createPost(new Post(title, content));
+                        System.out.println("Post created");
+                        break;
+
+                    case 2:
+                        System.out.print("Enter Post Index: ");
+                        int likeIndex = sc.nextInt();
+
+                        int likes = service.likePost(likeIndex);
+                        System.out.println("Post liked. Total Likes: " + likes);
+                        break;
+
+                    case 3:
+                        System.out.print("Enter Post Index: ");
+                        int cIndex = sc.nextInt();
+                        sc.nextLine();
+
+                        System.out.print("Enter Comment: ");
+                        String text = sc.nextLine();
+
+                        service.commentPost(cIndex, text);
+                        System.out.println("Comment added");
+                        break;
+
+                    case 4:
+                        System.out.println("\n--- BLOG POSTS ---");
+                        service.displayPosts();
+
+                        System.out.println("\nTotal Likes: " + service.getTotalLikes());
+                        service.showMostLikedPost();
+                        break;
+
+                    case 5:
+                        System.out.print("Enter Post Index to delete: ");
+                        int dIndex = sc.nextInt();
+
+                        service.deletePost(dIndex);
+                        System.out.println("Post deleted");
+                        break;
+
+                    case 6:
+                        System.out.println("Exiting");
+                        return;
+
+                    default:
+                        System.out.println("Invalid choice");
+                }
+
+            } catch (PostNotFoundException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
+    }
+}
