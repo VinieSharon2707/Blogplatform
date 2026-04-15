@@ -1,0 +1,39 @@
+import java.util.*;
+
+public class Post {
+    private static int counter = 1;
+    private int postId;
+    private String title;
+    private String content;
+    private int likes;
+    private List<Comment> comments = new ArrayList<>();
+
+    public Post(String title, String content) {
+        this.postId = counter++;
+        this.title = title;
+        this.content = content;
+    }
+
+    public void addLike() {
+        likes++;
+    }
+
+    public void addComment(Comment c) {
+        comments.add(c);
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void display() {
+        System.out.println("Post ID: " + postId);
+        System.out.println("Title: " + title);
+        System.out.println("Content: " + content);
+        System.out.println("Likes: " + likes);
+
+        for (Comment c : comments) {
+            System.out.println(" - " + c);
+        }
+    }
+}
